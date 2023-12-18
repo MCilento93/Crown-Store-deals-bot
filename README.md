@@ -4,11 +4,11 @@ Discord bot that scrapes the [Crown Store webpage](https://www.elderscrollsonlin
 ### Slash commands
 * **/crown_store_discounts:** Use me to get the latest offers straight from the Crown Store.
 <p align="left">
-  <img src="https://github.com/MCilento93/crown_store_deals_bot/blob/master/images/sample_results.png" width="600px">
+  <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_results.png" width="600px">
 </p>
 * **/schedule_daily_deals_here:** Admins can set daily deal updates in the chat in which the slash command is invoked
 <p align="left">
-  <img src="https://github.com/MCilento93/crown_store_deals_bot/blob/master/images/sample_scheduling.png" width="600px">
+  <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_scheduling.png" width="600px">
 </p>
 
 ### License
