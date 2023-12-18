@@ -2,7 +2,8 @@
 Discord bot that scrapes the [Crown Store webpage](https://www.elderscrollsonline.com/en-us/crownstore) providing latest deals for The Elder Scrolls Online (unofficial Bethesda discord bot).
 
 ### Slash commands
-* **/crown_store_discounts:** Use me to get the latest offers straight from the Crown Store.
+* **/help:** Help function to advise users to the use of the other commands
+* **/crown_store_discounts:** Use me to get the latest offers straight from the Crown Store
 <p align="left">
   <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_results.png" width="600px">
 </p>
@@ -14,7 +15,6 @@ Discord bot that scrapes the [Crown Store webpage](https://www.elderscrollsonlin
 
 ### Invite link
 Invite Crown Store deals bot in your server with the following [link](https://discord.com/api/oauth2/authorize?client_id=1180792508247199835&permissions=3072&scope=bot).
-
 Limited bot-permissions required:
 * Read Messages/View Channels
 * Send Messages
