@@ -12,5 +12,14 @@ Discord bot that scrapes the [Crown Store webpage](https://www.elderscrollsonlin
   <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_scheduling.png" width="600px">
 </p>
 
+### Invite link
+Invite Crown Store deals bot in your server with the following [link](https://discord.com/api/oauth2/authorize?client_id=1180792508247199835&permissions=3072&scope=bot).
+
+Limited bot-permissions required:
+* Read Messages/View Channels
+* Send Messages
+* Read Message History
+* Add Reactions
+
 ### License
 This repository is licensed under [GNU](LICENSE) (c) 2023 GitHub, Inc.
