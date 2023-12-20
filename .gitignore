@@ -5,7 +5,7 @@ pyproject.toml
 replit.nix
 
 # folders
-**/__pycache__
+__pycache__
 
 # all log files
 *.log
