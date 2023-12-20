@@ -22,4 +22,4 @@ Limited bot-permissions required:
 * Add Reactions
 
 ### License
-This repository is licensed under [GNU](LICENSE) (c) 2023 GitHub, Inc.
+This repository is licensed under [MIT License](LICENSE) (c) 2023 GitHub, Inc.

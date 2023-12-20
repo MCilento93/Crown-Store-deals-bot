@@ -1,4 +1,4 @@
-# webapp site: https://test-discord-bot--giolarochelle.repl.co/
+# webapp site: https://crown-store-deals-bot--mariocilento93.repl.co/
 
 from flask import Flask
 from threading import Thread

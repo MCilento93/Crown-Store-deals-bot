@@ -1,0 +1,11 @@
+# specific files
+.replit
+poetry.lock
+pyproject.toml
+replit.nix
+
+# folders
+**/__pycache__
+
+# all log files
+*.log
