@@ -3,6 +3,7 @@
 poetry.lock
 pyproject.toml
 replit.nix
+_html_prettify.py
 
 # folders
 __pycache__
