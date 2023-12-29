@@ -4,6 +4,7 @@ poetry.lock
 pyproject.toml
 replit.nix
 _html_prettify.py
+_test_channel_send.py
 
 # folders
 __pycache__
