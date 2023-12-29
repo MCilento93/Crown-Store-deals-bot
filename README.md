@@ -22,7 +22,6 @@ Discord bot that scrapes the [Crown Store webpage](https://www.elderscrollsonlin
 The bot is provided with some permission check to prevent users from doing wrong calls. 
 <p align="left">
   <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_permission_01.png" width="400px">
-</p><p align="left">
   <img src="https://github.com/MCilento93/Crown-Store-deals-bot/blob/main/images/sample_permission_02.png" width="400px">
 </p>
 
