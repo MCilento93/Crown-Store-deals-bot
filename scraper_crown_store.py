@@ -49,9 +49,6 @@ High Isle""".split('\n')
 def get_html(url):
     return requests.get(url).content
 
-def remove_duplicates(item_list):
-    return [dict(t) for t in {tuple(d.items()) for d in item_list}]
-
 def scrape(html):
     # Opening the soup
     soup = BeautifulSoup(html, 'html.parser')
@@ -114,26 +111,29 @@ def scrape(html):
             'item_cost_seals': cost_seals
         }]
 
-    # Remove duplicates
-    return remove_duplicates(item_list)
+    return item_list
 
 
 ### CLASSES
 class ScrapedCategory():
 
     def __init__(self, category):
+        # Import category Special offers
         if category == 'special_offers':
             self.html = get_html(URL_SPECIAL_OFFERS)
             self.list = scrape(self.html)
             self.header = 'Special offers'
+        # Import category Featured
         elif category == 'featured':
             self.html = get_html(URL_FEATURED)
             self.list = scrape(self.html)
             self.header = 'Featured'
+        # Import catgeory ESO Plus Deals
         elif category == 'esop_deals':
             self.html = get_html(URL_ESOP_DEALS)
             self.list = scrape(self.html)
             self.header = 'ESO+ deals'
+        # Build bot-selection category
         elif category == 'best_deals':
             self.header = 'Best deals'
             self._special_offers = ScrapedCategory('special_offers')
@@ -162,9 +162,20 @@ class ScrapedCategory():
     
                 if accept_item:
                     self.list += [i]
-            self.list = remove_duplicates(self.list)
-            # self.remove_duplicates()
+        # Remove duplicates in the final instance according to a key
+        self.remove_duplicates()
+        
+    def remove_duplicates(self, key='item_link'):
+        keys_set = set()
+        result = []
+        for _dict in self.list:
+            _value = _dict[key]
+            if _value not in keys_set:
+                keys_set.add(_value)
+                result.append(_dict)
+        self.list = result
 
+    
     @property
     def title(self):
         return f"""**💸 {self.header} ({len(self.list)})**"""
@@ -186,13 +197,13 @@ class ScrapedCategory():
             _row = f"[{i['item_title']}](<{i['item_link']}>)"
             if i['item_cost_esop_crowns']:
                 if i['item_cost_crowns']:
-                    _row += f" - {i['item_cost_crowns']}, 🏆 {i['item_cost_esop_crowns']}"
+                    _row += f" {i['item_cost_crowns']}, 🏆 {i['item_cost_esop_crowns']}"
                 else:  # free items in "eso+ deals"
-                    _row += f" - 🏆 {i['item_cost_esop_crowns']}"
+                    _row += f" 🏆 {i['item_cost_esop_crowns']}"
             elif i['item_cost_gems']:
-                _row += f" - {i['item_cost_gems']} or {i['item_cost_seals']}"
+                _row += f" {i['item_cost_gems']} or {i['item_cost_seals']}"
             else:
-                _row += f" - {i['item_cost_crowns']}"
+                _row += f" {i['item_cost_crowns']}"
 
             if i['item_time_left']:
                 _row += f" ({i['item_time_left']})"
@@ -209,10 +220,9 @@ class ScrapedCategory():
 def move_from_featured_to_esop(featured: ScrapedCategory,esop_deals: ScrapedCategory):
     for i in featured.list:
         if i['item_cost_esop_crowns']:
-            # move this element from featured to eso+ deals
             esop_deals.list += [i]
             featured.list.remove(i)
-    esop_deals.list = remove_duplicates(esop_deals.list)
+    esop_deals.remove_duplicates()
     return featured, esop_deals
 
 

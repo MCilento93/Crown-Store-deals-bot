@@ -32,17 +32,17 @@ async def has_permissions(interaction):
     if type(interaction.channel) == nextcord.PartialMessageable:
         permission_bool = False
     else:
-        permission_bool = interaction.channel.permissions_for(interaction.guild.me).send_messages  # required authorization to send messages (in chunks)
+        permission_bool = interaction.channel.permissions_for(interaction.guild.me).send_messages  # required authorization to send messages
     if permission_bool is False:
         await interaction.followup.send("🚫 I'm unable to send messages in this realm. Kindly ask the server's admin and ensure that the 'Send Messages' privilege is given to me and to my honored role in this channel ⚔️🏹")  # followup is webhook, so it can be sent
-        return permission_bool  # True/False
+        return permission_bool  # bool
 
-async def send_message_to_channel(ctx: Union[nextcord.Interaction,nextcord.abc.Messageable],  # interaction or channel as input
-                                  message: Union[str,nextcord.Embed],
-                                  first_as_followup: bool = False,
-                                  view: Optional[nextcord.ui.View] = None) -> None:  # optional GUI element here
+async def send_message_to_channel(ctx: Union[nextcord.Interaction,nextcord.abc.Messageable],  # interaction or channel
+                                  message: Union[str,nextcord.Embed], # message or embed (with markdown)
+                                  first_as_followup: bool = False, # if the first message should be sent as a followup
+                                  view: Optional[nextcord.ui.View] = None) -> None:  # optional GUI element
     
-    # Chunking auxiliary function
+    # Chunking auxiliary function (for long messages)
     def chunk_message(string: str,max_chars:int = 2000) -> List[str]:
         # Useful method to send multiple messages in a row
         offset = 0  # 2000 is the character limit in discord, for embeds it is 4096
@@ -58,12 +58,17 @@ async def send_message_to_channel(ctx: Union[nextcord.Interaction,nextcord.abc.M
     
     # Check input message or embeds
     if isinstance(message,str):
-        embed = False
-        chunks = chunk_message(message)  # split code every 2000 chars
+        chunks_str = chunk_message(message)  # split code every 2000 chars
+        chunks_embed = [None] * len(chunks_str)
     elif isinstance(message,nextcord.Embed):
-        embed = True
-        chunks = chunk_message(message.description,max_chars=4096)  # split code every 4096 chars
-    
+        chunks_description = chunk_message(message.description,max_chars=4096)  # split code every 4096 chars
+        chunks_embed = []
+        for chunk in chunks_description:
+            chunk_embed = message
+            chunk_embed.description = chunk
+            chunks_embed += [chunk_embed]
+        chunks_str = [None] * len(chunks_embed)
+        
     # Check context
     if isinstance(ctx, nextcord.Interaction):
         interaction = ctx
@@ -74,18 +79,33 @@ async def send_message_to_channel(ctx: Union[nextcord.Interaction,nextcord.abc.M
         first_as_followup=False
     
     # Send message
-    for count, chunk in enumerate(chunks):
-        if (count == 0 and first_as_followup and interaction is not None):
-            await interaction.followup.send(chunk)  # send first as reply
-        elif embed:
-            _embed = message
-            _embed.description = chunk
-            await channel.send(embed=_embed)
+        # single message to be sent
+    if len(chunks_str)==1: 
+        if first_as_followup and interaction and view:
+            await interaction.followup.send(chunks_str[0],embed=chunks_embed[0],view=view)
+        elif first_as_followup and interaction:
+            await interaction.followup.send(chunks_str[0],embed=chunks_embed[0])
+        elif view:
+            await channel.send(chunks_str[0],embed=chunks_embed[0],view=view)
         else: 
-            await channel.send(chunk)
-    if view:
-     await channel.send('', view=view)  # send a final message with button
-
+            await channel.send(chunks_str[0],embed=chunks_embed[0])
+    else:
+        # multiple chunks to be sent 
+        for count, chunk_str in enumerate(chunks_str):
+            chunk_embed = chunks_embed[count]
+            if (count == 0 and first_as_followup and interaction is not None):
+                # first message to be sent as reply
+                await interaction.followup.send(chunk_str,embed=chunk_embed)
+            elif count == len(chunks_str)-1:
+                # last message with optional view
+                if view:
+                    await channel.send(chunk_str,embed=chunk_embed,view=view)
+                else:
+                    await channel.send(chunk_str,embed=chunk_embed)
+            else:
+                # middle messages
+                await channel.send(chunk_str,embed=chunk_embed)
+                
 
 ### CLIENT METHODS
 bot = commands.Bot()
