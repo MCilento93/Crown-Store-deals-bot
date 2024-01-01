@@ -145,22 +145,17 @@ async def crown_store_discounts(interaction: nextcord.Interaction):
     # Special offers
     special_offers = ScrapedCategory('special_offers')
     view = ButtonWithLink(label="👑 See all Special offers",url=URL_SPECIAL_OFFERS)
-    await send_message_to_channel(interaction,
-                                  special_offers.markdown,
-                                  first_as_followup=True,
-                                  view=view)
+    await send_message_to_channel(interaction, special_offers.markdown, first_as_followup=True, view=view)
 
     # Featured
     featured = ScrapedCategory('featured')
-
+    view = ButtonWithLink(label="👑 See all Featured", url=URL_FEATURED)
+    
     # ESO+ deals
     esop_deals = ScrapedCategory('esop_deals')
-    featured, esop_deals = move_from_featured_to_esop(featured, esop_deals)
-
-    view = ButtonWithLink(label="👑 See all Featured", url=URL_FEATURED)
-    await send_message_to_channel(interaction, featured.markdown, view=view)
-
     view = ButtonWithLink(label="👑 See all ESO+ deals", url=URL_ESOP_DEALS)
+    featured, esop_deals = move_from_featured_to_esop(featured, esop_deals)
+    await send_message_to_channel(interaction, featured.markdown, view=view)
     await send_message_to_channel(interaction, esop_deals.markdown, view=view)
 
 @bot.slash_command(name='best_deals',description='Sending only my selection of crown store deals')
@@ -209,6 +204,8 @@ async def scheduled_message_routine():
     # Best deals
     best_deals = ScrapedCategory('best_deals')
     embed = nextcord.Embed(title=best_deals.title, description=best_deals.markdown_no_title,color=nextcord.Colour.lighter_grey())
+    embed.set_thumbnail('https://raw.githubusercontent.com/MCilento93/Crown-Store-deals-bot/main/icons/icon_alpha.png')
+    embed.set_footer(text='Crown Store deals | Best deals')
     
     # Routine
     for guild in bot.guilds:

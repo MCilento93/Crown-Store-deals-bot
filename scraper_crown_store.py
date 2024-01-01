@@ -164,6 +164,10 @@ class ScrapedCategory():
                     self.list += [i]
         # Remove duplicates in the final instance according to a key
         self.remove_duplicates()
+        self.sort_list()
+        
+    def sort_list(self):
+        self.list = sorted(self.list, key=lambda d: d['item_title']) 
         
     def remove_duplicates(self, key='item_link'):
         keys_set = set()
@@ -223,6 +227,7 @@ def move_from_featured_to_esop(featured: ScrapedCategory,esop_deals: ScrapedCate
             esop_deals.list += [i]
             featured.list.remove(i)
     esop_deals.remove_duplicates()
+    esop_deals.sort_list()
     return featured, esop_deals
 
 
