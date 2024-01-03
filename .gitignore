@@ -5,6 +5,7 @@ pyproject.toml
 replit.nix
 _html_prettify.py
 _test_channel_send.py
+_test_single_user_send.py
 
 # folders
 __pycache__

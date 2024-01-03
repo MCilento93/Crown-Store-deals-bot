@@ -144,19 +144,19 @@ async def crown_store_discounts(interaction: nextcord.Interaction):
 
     # Special offers
     special_offers = ScrapedCategory('special_offers')
-    view = ButtonWithLink(label="👑 See all Special offers",url=URL_SPECIAL_OFFERS)
-    await send_message_to_channel(interaction, special_offers.markdown, first_as_followup=True, view=view)
+    view_s = ButtonWithLink(label="👑 See all Special offers",url=URL_SPECIAL_OFFERS)
+    await send_message_to_channel(interaction, special_offers.markdown, first_as_followup=True, view=view_s)
 
     # Featured
     featured = ScrapedCategory('featured')
-    view = ButtonWithLink(label="👑 See all Featured", url=URL_FEATURED)
+    view_f = ButtonWithLink(label="👑 See all Featured", url=URL_FEATURED)
     
     # ESO+ deals
     esop_deals = ScrapedCategory('esop_deals')
-    view = ButtonWithLink(label="👑 See all ESO+ deals", url=URL_ESOP_DEALS)
+    view_e = ButtonWithLink(label="👑 See all ESO+ deals", url=URL_ESOP_DEALS)
     featured, esop_deals = move_from_featured_to_esop(featured, esop_deals)
-    await send_message_to_channel(interaction, featured.markdown, view=view)
-    await send_message_to_channel(interaction, esop_deals.markdown, view=view)
+    await send_message_to_channel(interaction, featured.markdown, view=view_f)
+    await send_message_to_channel(interaction, esop_deals.markdown, view=view_e)
 
 @bot.slash_command(name='best_deals',description='Sending only my selection of crown store deals')
 async def best_deals(interaction: nextcord.Interaction):

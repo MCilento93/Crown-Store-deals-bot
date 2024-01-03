@@ -76,7 +76,10 @@ def scrape(html):
             _costs_crowns = item.find(class_='crowns-price').find_all(class_='sr-only')
             cost_crowns = _costs_crowns[0].text.strip()
             if cost_crowns:
-                cost_esop_crowns = _costs_crowns[1].text.strip()
+                if len(_costs_crowns)>1:
+                    cost_esop_crowns = _costs_crowns[1].text.strip()
+                else:
+                    cost_esop_crowns = 'EXCLUSIVE!'
             else:
                 cost_esop_crowns = 'FREE!'
             cost_gems = None
