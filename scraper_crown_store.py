@@ -224,15 +224,20 @@ class ScrapedCategory():
 """.replace(' Crowns', '👑').replace(' Crown Gems', '💎').replace('(0 day left)', '(expiring today)').replace(' Sale Price','👑 Sale Price')
         return markdown
 
-def move_from_featured_to_esop(featured: ScrapedCategory,esop_deals: ScrapedCategory):
+def move_from_featured_to_esop(featured: ScrapedCategory, esop_deals: ScrapedCategory):
+    items_to_remove = []
+
     for i in featured.list:
         if i['item_cost_esop_crowns']:
-            esop_deals.list += [i]
-            featured.list.remove(i)
+            esop_deals.list.append(i)
+            items_to_remove.append(i)
+
+    for item in items_to_remove:
+        featured.list.remove(item)
+
     esop_deals.remove_duplicates()
     esop_deals.sort_list()
     return featured, esop_deals
-
 
 ### MAIN
 if __name__ == '__main__':

@@ -114,7 +114,8 @@ bot = commands.Bot()
 async def on_ready():
     print(f'{bot.user} bot is ready on {len(bot.guilds)} servers')
     print('------------------------------------------------')
-    scheduled_message_routine.start()
+    scheduled_message_routine.start() # hosted 24/24
+    # await scheduled_message_routine() # hosted with local run
 
 @bot.slash_command(name='help', description="Get help on how I may help you")
 async def help(interaction: nextcord.Interaction):
@@ -197,7 +198,7 @@ async def schedule_daily_feeds_here(interaction: nextcord.Interaction):
     else:
         await interaction.followup.send('❌ Something went wrong ... maybe you have not admin permissions in this server ☠️')
 
-@tasks.loop(time=datetime.time(hour=3, minute=10, second=0))  #UTC time
+@tasks.loop(time=datetime.time(hour=3, minute=10, second=0))  #UTC time # hosted 24/24
 async def scheduled_message_routine():
     print('Daily routine starting...')
 
