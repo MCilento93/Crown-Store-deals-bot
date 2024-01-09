@@ -3,8 +3,7 @@
 
 ### IMPORTING
 # Standard library imports
-import datetime
-import os
+import os, datetime, configparser
 from typing import List, Optional, Union
 
 # Third-party library imports
@@ -222,4 +221,7 @@ async def scheduled_message_routine():
 
 ### MAIN
 keep_alive()
+config = configparser.ConfigParser()
+config.read('config.ini')
 bot.run(os.environ['TOKEN'])
+bot.run(config['BOT_SETTINGS']['TOKEN'])

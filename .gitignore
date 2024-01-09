@@ -6,6 +6,7 @@ replit.nix
 _html_prettify.py
 _test_channel_send.py
 _test_single_user_send.py
+config.ini
 
 # folders
 __pycache__

@@ -182,7 +182,6 @@ class ScrapedCategory():
                 result.append(_dict)
         self.list = result
 
-    
     @property
     def title(self):
         return f"""**💸 {self.header} ({len(self.list)})**"""
@@ -238,6 +237,7 @@ def move_from_featured_to_esop(featured: ScrapedCategory, esop_deals: ScrapedCat
     esop_deals.remove_duplicates()
     esop_deals.sort_list()
     return featured, esop_deals
+
 
 ### MAIN
 if __name__ == '__main__':
