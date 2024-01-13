@@ -3,13 +3,15 @@
 poetry.lock
 pyproject.toml
 replit.nix
-_html_prettify.py
-_test_channel_send.py
-_test_single_user_send.py
 config.ini
+database/README_DB.txt
+database/ewallet.pem
+database/tnsnames.ora
+database/Wallet_CrownStoreDealsBotDB.zip
 
 # folders
 __pycache__
+scripts
 
 # all log files
 *.log

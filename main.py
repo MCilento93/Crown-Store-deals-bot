@@ -10,10 +10,9 @@ from typing import List, Optional, Union
 import nextcord
 from nextcord.ext import commands, tasks
 from nextcord.ui.select import string
-from replitapi import db
 
 # Project entities
-from keep_alive import keep_alive
+from database.database import DataBase
 from scraper_crown_store import *
 
 
@@ -189,15 +188,17 @@ async def schedule_daily_feeds_here(interaction: nextcord.Interaction):
             'guild_name': interaction.guild.name,
             'channel_id': interaction.channel_id,
             'channel_name': interaction.channel.name,
+            'author_id': interaction.user.id,
             'author': interaction.user.name,
-            'author_id': interaction.user.id
         }
-        db[str(guild_infos['guild_id'])] = guild_infos
+        db = DataBase()
+        db.upsert(guild_infos)
+        db.close_connection()
         await interaction.followup.send('✅ Feeds correctly scheduled in this chat! Stay tuned 🧙‍♂️')
     else:
         await interaction.followup.send('❌ Something went wrong ... maybe you have not admin permissions in this server ☠️')
-
-@tasks.loop(time=datetime.time(hour=3, minute=10, second=0))  #UTC time # hosted 24/24
+    
+@tasks.loop(time=datetime.time(hour=16, minute=37, second=0))  #UTC time # hosted 24/24
 async def scheduled_message_routine():
     print('Daily routine starting...')
 
@@ -206,22 +207,20 @@ async def scheduled_message_routine():
     embed = nextcord.Embed(title=best_deals.title, description=best_deals.markdown_no_title,color=nextcord.Colour.lighter_grey())
     embed.set_thumbnail('https://raw.githubusercontent.com/MCilento93/Crown-Store-deals-bot/main/icons/icon_alpha.png')
     embed.set_footer(text='Crown Store deals | Best deals')
-    
+
     # Routine
     for guild in bot.guilds:
         try:
-            if str(guild.id) in db.keys():
-                # get guilds info
-                guild_infos = db[str(guild.id)]
-                channel = bot.get_channel(guild_infos['channel_id'])
+            db = DataBase()
+            channel_id = db.get_channel_id(guild.id)
+            db.close_connection()
+            if channel_id:
+                channel = bot.get_channel(channel_id)
                 await send_message_to_channel(channel,embed)   
         except:
             print(f'Error in daily routine for {guild.name}')
 
-
 ### MAIN
-keep_alive()
 config = configparser.ConfigParser()
 config.read('config.ini')
-bot.run(os.environ['TOKEN'])
 bot.run(config['BOT_SETTINGS']['TOKEN'])
