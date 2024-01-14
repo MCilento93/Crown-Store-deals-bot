@@ -113,7 +113,7 @@ async def on_ready():
     print(f'{bot.user} bot is ready on {len(bot.guilds)} servers')
     print('------------------------------------------------')
     scheduled_message_routine.start() # hosted 24/24
-    # await scheduled_message_routine() # hosted with local run
+    await bot.change_presence(activity=nextcord.Game(name=f"""Elder Scrolls with {len(bot.guilds)} guilds"""))
 
 @bot.slash_command(name='help', description="Get help on how I may help you")
 async def help(interaction: nextcord.Interaction):
@@ -197,8 +197,8 @@ async def schedule_daily_feeds_here(interaction: nextcord.Interaction):
         await interaction.followup.send('✅ Feeds correctly scheduled in this chat! Stay tuned 🧙‍♂️')
     else:
         await interaction.followup.send('❌ Something went wrong ... maybe you have not admin permissions in this server ☠️')
-    
-@tasks.loop(time=datetime.time(hour=16, minute=37, second=0))  #UTC time # hosted 24/24
+
+@tasks.loop(time=datetime.time(hour=3, minute=0, second=0))  #UTC time hosted 24/24
 async def scheduled_message_routine():
     print('Daily routine starting...')
 
@@ -219,6 +219,7 @@ async def scheduled_message_routine():
                 await send_message_to_channel(channel,embed)   
         except:
             print(f'Error in daily routine for {guild.name}')
+
 
 ### MAIN
 config = configparser.ConfigParser()

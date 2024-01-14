@@ -73,7 +73,6 @@ class DataBase():
 			print('\nNew channel added: ','\n    >',guild_infos)
 		except:
 			print('\nError inserting: ','\n    >',guild_infos)
-
 			
 	def upsert(self,guild_infos:dict):
 		sql="""
@@ -115,23 +114,23 @@ WHEN NOT MATCHED THEN INSERT
 		try:
 			cursor=self.query(sql,
 							  guild_id=guild_id)
-			self.connection.commit()
 			fetch = cursor.fetchone()
 			cursor.close()
 			return fetch[0] if fetch else None
 		except Exception as e:
 			print(f"\nError getting channel id with guild_id: {guild_id}. Description: ",e)
 			return None
-			
+
+
 ### MAIN
 if __name__ == '__main__':
 	
-	# Open image of database
+	# Open connection to database
 	db = DataBase()
 
 	# Get all elements
 	db.print_table()
-	# list_guild_infos = db.get_list_guild_infos()
+	list_guild_infos = db.get_list_guild_infos()
 	
 	# Insert fake channel
 	guild_infos = {
@@ -150,6 +149,7 @@ if __name__ == '__main__':
 
 	# Test select channel_id
 	channel_id=db.get_channel_id(guild_id=1)
+	print("channel_id: ",channel_id)
 	
 	# Close connection when operations are done
 	db.close_connection()

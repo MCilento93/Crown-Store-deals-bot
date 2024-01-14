@@ -12,6 +12,7 @@ database/Wallet_CrownStoreDealsBotDB.zip
 # folders
 __pycache__
 scripts
+entities
 
 # all log files
 *.log
