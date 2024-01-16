@@ -196,7 +196,7 @@ class ScrapedCategory():
     @property
     def markdown_no_title(self):
         if self.list == []:
-            return "🤷 No items today, sorry"
+            return "\n🤷 No items today, sorry"
         # Build row
         _list = []
         for i in self.list:

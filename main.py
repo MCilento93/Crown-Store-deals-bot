@@ -112,8 +112,8 @@ bot = commands.Bot()
 async def on_ready():
     print(f'{bot.user} bot is ready on {len(bot.guilds)} servers')
     print('------------------------------------------------')
-    scheduled_message_routine.start() # hosted 24/24
-    await bot.change_presence(activity=nextcord.Game(name=f"""Elder Scrolls with {len(bot.guilds)} guilds"""))
+    scheduled_message_routine.start()
+    await bot.change_presence(activity=nextcord.Game(name=f"""Elder Scrolls in {len(bot.guilds)} discord chat(s)"""))
 
 @bot.slash_command(name='help', description="Get help on how I may help you")
 async def help(interaction: nextcord.Interaction):
@@ -200,7 +200,7 @@ async def schedule_daily_feeds_here(interaction: nextcord.Interaction):
 
 @tasks.loop(time=datetime.time(hour=3, minute=0, second=0))  #UTC time hosted 24/24
 async def scheduled_message_routine():
-    print('Daily routine starting...')
+    print('\nDaily routine starting...')
 
     # Best deals
     best_deals = ScrapedCategory('best_deals')
