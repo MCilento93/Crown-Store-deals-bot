@@ -42,7 +42,7 @@ Firesong
 Dark Heart of Skyrim: DLC Bundle
 Gates of Oblivion: DLC Bundle
 Scribes of Fate
-High Isle""".split('\n')
+High Isle""".lower().split('\n')
 
 
 ### FUNCTIONS
@@ -148,7 +148,7 @@ class ScrapedCategory():
                 accept_item = False
     
                 # Acceptance criteria 1: it's amid the desired items
-                if any(substring.lower() in i['item_title'].lower() for substring in DESIRED_ITEMS):
+                if i['item_title'].lower() in DESIRED_ITEMS:
                     accept_item = True
     
                 # Acceptance criteria 2: item is on sale
@@ -195,12 +195,22 @@ class ScrapedCategory():
         
     @property
     def markdown_no_title(self):
+        
+        # No items in the category
         if self.list == []:
             return "\n🤷 No items today, sorry"
+        
         # Build row
         _list = []
         for i in self.list:
-            _row = f"[{i['item_title']}](<{i['item_link']}>)"
+
+            # Title
+            if i['item_title'].lower() in DESIRED_ITEMS:
+                _row = f"[**{i['item_title']}**](<{i['item_link']}>)" # bold if there are dlcs
+            else:
+                _row = f"[{i['item_title']}](<{i['item_link']}>)"
+
+            # Cost
             if i['item_cost_esop_crowns']:
                 if i['item_cost_crowns']:
                     _row += f" {i['item_cost_crowns']}, 🏆 {i['item_cost_esop_crowns']}"
@@ -211,6 +221,7 @@ class ScrapedCategory():
             else:
                 _row += f" {i['item_cost_crowns']}"
 
+            # Time left
             if i['item_time_left']:
                 _row += f" ({i['item_time_left']})"
             _list += [_row]
@@ -251,7 +262,7 @@ if __name__ == '__main__':
     # ESO+ deals
     esop_deals = ScrapedCategory('esop_deals')
 
-    # correct elements
+    # Move eso+ deals from featured category
     featured, esop_deals = move_from_featured_to_esop(featured, esop_deals)
 
     # Best deals
