@@ -202,6 +202,9 @@ async def schedule_daily_feeds_here(interaction: nextcord.Interaction):
 async def scheduled_message_routine():
     print('\nDaily routine starting...')
 
+    # Update presence
+    await bot.change_presence(activity=nextcord.Game(name=f"""Elder Scrolls in {len(bot.guilds)} discord chat(s)"""))
+    
     # Best deals
     best_deals = ScrapedCategory('best_deals')
     embed = nextcord.Embed(title=best_deals.title, description=best_deals.markdown_no_title,color=nextcord.Colour.lighter_grey())
@@ -216,7 +219,7 @@ async def scheduled_message_routine():
             db.close_connection()
             if channel_id:
                 channel = bot.get_channel(channel_id)
-                await send_message_to_channel(channel,embed)   
+                await send_message_to_channel(channel,embed)  
         except:
             print(f'Error in daily routine for {guild.name}')
 
