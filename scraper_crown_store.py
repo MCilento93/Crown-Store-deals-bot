@@ -211,15 +211,21 @@ class ScrapedCategory():
                 _row = f"[{i['item_title']}](<{i['item_link']}>)"
 
             # Cost
-            if i['item_cost_esop_crowns']:
-                if i['item_cost_crowns']:
-                    _row += f" {i['item_cost_crowns']}, 🏆 {i['item_cost_esop_crowns']}"
+            _item_cost_esop_crowns=i['item_cost_esop_crowns']
+            _item_cost_crowns=i['item_cost_crowns']
+
+            if _item_cost_esop_crowns:
+                _item_cost_esop_crowns=_item_cost_esop_crowns.replace(' Crowns', '👑')
+                if _item_cost_crowns:
+                    _item_cost_crowns=_item_cost_crowns.replace(' Crowns', '👑')
+                    _row += f" {_item_cost_crowns}, 🏆 {_item_cost_esop_crowns}"
                 else:  # free items in "eso+ deals"
-                    _row += f" 🏆 {i['item_cost_esop_crowns']}"
+                    _row += f" 🏆 {_item_cost_esop_crowns}"
             elif i['item_cost_gems']:
                 _row += f" {i['item_cost_gems']} or {i['item_cost_seals']}"
             else:
-                _row += f" {i['item_cost_crowns']}"
+                _item_cost_crowns=_item_cost_crowns.replace(' Crowns', '👑')
+                _row += f" {_item_cost_crowns}"
 
             # Time left
             if i['item_time_left']:
@@ -231,7 +237,7 @@ class ScrapedCategory():
     # Build final markup
         markdown = f"""
 {list_str}
-""".replace(' Crowns', '👑').replace(' Crown Gems', '💎').replace('(0 day left)', '(expiring today)').replace(' Sale Price','👑 Sale Price')
+""".replace(' Crown Gems', '💎').replace('(0 day left)', '(expiring today)').replace(' Sale Price','👑 Sale Price')
         return markdown
 
 def move_from_featured_to_esop(featured: ScrapedCategory, esop_deals: ScrapedCategory):
