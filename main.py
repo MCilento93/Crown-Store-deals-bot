@@ -125,9 +125,9 @@ async def help(interaction: nextcord.Interaction):
 I am unofficial Bethesda bot dedicated to keeping you updated on Crown Store deals in The Elder Scrolls Online.
 
 **How I Help:**
-- **/crown_store_discounts:** Use me to get the latest offers straight from the Crown Store
-- **/best_deals:** With this function you will get only my favourite selection of deals
-- **/schedule_daily_deals_here:** Admins can set daily deal updates in the chat in which this slash command is invoked
+**</crown_store_discounts:1192052807902187580>:** Use me to get the latest offers straight from the Crown Store
+**</best_deals:1192052806174134383>:** With this function you will get only my favourite selection of deals
+**</schedule_daily_feeds_here:1192052809206607873>:** Admins can set daily deal updates in the chat in which this slash command is invoked
 
 Stay ahead with the best deals in the Crown Store. Happy gaming! ⚔️👑🏹
 """)
