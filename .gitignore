@@ -8,6 +8,7 @@ database/README_DB.txt
 database/ewallet.pem
 database/tnsnames.ora
 database/Wallet_CrownStoreDealsBotDB.zip
+crown_store_deals.code-workspace
 
 # folders
 __pycache__
